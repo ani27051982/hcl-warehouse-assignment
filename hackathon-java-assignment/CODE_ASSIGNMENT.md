@@ -126,6 +126,13 @@ GET /warehouse/search
 3. Multiple filters use AND logic
 4. Add integration test(s)
 
+**Implementation summary (what was done)**:
+
+- The endpoint `GET /warehouse/search` was implemented in `WarehouseSearchResource`, which delegates to `WarehouseRepository.search(...)` to perform the actual filtering, sorting, and pagination.
+- All query parameters are optional. When provided, `location`, `minCapacity`, and `maxCapacity` are combined with AND logic, and archived warehouses are always excluded by filtering on `archivedAt IS NULL`.
+- Pagination and sorting are supported through `page`, `pageSize`, `sortBy` (`createdAt` or `capacity`), and `sortOrder` (`asc` or `desc`), with input normalization and validation for edge cases (e.g. invalid capacity ranges).
+- Integration tests in `WarehouseSearchResourceTest` verify the happy path (filtering and pagination) as well as edge cases (invalid capacity ranges, negative pagination values), ensuring the endpoint behaves correctly under realistic usage.
+
 ---
 
 ## Going Beyond
