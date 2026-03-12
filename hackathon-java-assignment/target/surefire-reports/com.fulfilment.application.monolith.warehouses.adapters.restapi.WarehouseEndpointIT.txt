@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------
+Test set: com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseEndpointIT
+-------------------------------------------------------------------------------
+Tests run: 2, Failures: 0, Errors: 1, Skipped: 1, Time elapsed: 68.05 s <<< FAILURE! -- in com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseEndpointIT
+com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseEndpointIT.testSimpleListWarehouses -- Time elapsed: 0.030 s <<< ERROR!
+java.lang.RuntimeException: java.lang.IllegalStateException: Unable to determine the status of the running process. See the above logs for details
+	at io.quarkus.test.junit.QuarkusIntegrationTestExtension.throwBootFailureException(QuarkusIntegrationTestExtension.java:375)
+	at io.quarkus.test.junit.QuarkusIntegrationTestExtension.beforeEach(QuarkusIntegrationTestExtension.java:118)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: java.lang.IllegalStateException: Unable to determine the status of the running process. See the above logs for details
+	at io.quarkus.test.common.LauncherUtil.waitForCapturedListeningData(LauncherUtil.java:102)
+	at io.quarkus.test.common.DefaultJarLauncher.start(DefaultJarLauncher.java:72)
+	at io.quarkus.test.junit.IntegrationTestUtil.startLauncher(IntegrationTestUtil.java:194)
+	at io.quarkus.test.junit.QuarkusIntegrationTestExtension.doProcessStart(QuarkusIntegrationTestExtension.java:303)
+	at io.quarkus.test.junit.QuarkusIntegrationTestExtension.ensureStarted(QuarkusIntegrationTestExtension.java:170)
+	at io.quarkus.test.junit.QuarkusIntegrationTestExtension.beforeAll(QuarkusIntegrationTestExtension.java:131)
+	... 1 more
+

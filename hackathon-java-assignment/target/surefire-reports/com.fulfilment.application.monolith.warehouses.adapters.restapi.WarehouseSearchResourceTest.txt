@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseSearchResourceTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 12.68 s -- in com.fulfilment.application.monolith.warehouses.adapters.restapi.WarehouseSearchResourceTest
