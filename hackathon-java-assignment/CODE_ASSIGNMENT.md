@@ -161,6 +161,37 @@ There are no wrong answers — we're interested in how you think and what you pr
 
 ---
 
+## Engineering practices applied
+
+To align with software development best practices (code quality, standards, exception handling, logging, and CI/CD), the following have been implemented:
+
+- **Code quality & structure**
+  - Clean layering between **domain** (`warehouses.domain.*`), **ports** (`LocationResolver`, `WarehouseStore`), and **adapters** (REST, database, legacy store gateway).
+  - Repository methods use entity-based updates with JPA `@Version` for optimistic locking instead of bulk updates that bypass version checks.
+  - `WarehouseRepository.remove` and search behavior are backed by tests to avoid unverified data access paths.
+
+- **Coding standards**
+  - Consistent Java naming conventions and package organisation (domain vs adapters).
+  - REST resources are kept thin: they validate and translate HTTP concerns, then delegate to use cases and repositories.
+  - A dedicated `UNIT_TESTING.md` file documents how unit, integration, and error-path tests are structured, so future changes follow the same style.
+
+- **Exception handling**
+  - Domain rules throw `IllegalArgumentException` and similar, while REST layers translate them into HTTP responses using `ErrorMapper` components for Product and Store.
+  - Concurrency and locking failures are exercised in tests (e.g. optimistic locking and concurrency ITs) so behaviour under contention is predictable and documented.
+  - Validation failures (e.g. missing fields, invalid IDs, invalid search parameters) consistently return `422`/`404` rather than generic `500` errors.
+
+- **Logging & observability**
+  - `StoreEventObserver` uses transactional observers (`TransactionPhase.AFTER_SUCCESS`) so logs and legacy-sync calls only occur after successful commits.
+  - SQL logging is enabled in development/test (`quarkus.hibernate-orm.log.sql=true`) to make debugging data issues straightforward.
+  - CI-level feedback combines test pass/fail, code coverage (JaCoCo), and integration verification (PostgreSQL-backed `WarehouseEndpointIT`).
+
+- **Testing, coverage & CI/CD**
+  - JaCoCo is configured with a **coverage gate** (build fails if instruction coverage < 80%), and current coverage is ~87%.
+  - GitHub Actions CI runs Maven tests on every push/PR, publishes the JaCoCo HTML report as an artifact, and runs `WarehouseEndpointIT` against a PostgreSQL service on main branch builds.
+  - Concurrency (`WarehouseConcurrencyIT`), database integration (`WarehouseTestcontainersIT`), and end-to-end (`WarehouseEndpointIT`) tests complement unit tests so regressions are caught across layers.
+
+---
+
 ## Deliverables
 
 1. **All tests passing**
