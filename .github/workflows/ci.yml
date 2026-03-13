@@ -60,13 +60,15 @@ jobs:
       postgres:
         image: postgres:16-alpine
         env:
-          POSTGRES_DB: warehouse
-          POSTGRES_USER: warehouse
-          POSTGRES_PASSWORD: warehouse
+          # Matches %prod datasource config in application.properties
+          # (%prod.quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:15432/quarkus_test)
+          POSTGRES_DB: quarkus_test
+          POSTGRES_USER: quarkus_test
+          POSTGRES_PASSWORD: quarkus_test
         ports:
           - 15432:5432
         options: >-
-          --health-cmd="pg_isready -U warehouse -d warehouse"
+          --health-cmd="pg_isready -U quarkus_test -d quarkus_test"
           --health-interval=5s
           --health-timeout=3s
           --health-retries=20
@@ -93,9 +95,5 @@ jobs:
         run: ./mvnw -B -ntp package -DskipTests
 
       - name: Run WarehouseEndpointIT
-        env:
-          # Test expects PostgreSQL on localhost:15432
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: "15432"
         run: ./mvnw -B -ntp test -Dtest=WarehouseEndpointIT
 
