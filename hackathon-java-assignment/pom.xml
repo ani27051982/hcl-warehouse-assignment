@@ -111,6 +111,11 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>${surefire-plugin.version}</version>
                 <configuration>
+                    <!--
+                      Keep Surefire fork JVM memory usage bounded.
+                      JaCoCo injects its own agent via @{argLine}; we append limits after it.
+                    -->
+                    <argLine>@{argLine} -Xmx512m -XX:CICompilerCount=2</argLine>
                     <systemPropertyVariables>
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                         <maven.home>${maven.home}</maven.home>
